@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Variables!
      */
-    private int quantity = 0;
+    private int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
