@@ -21,6 +21,7 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private final int PRICE_PER_CUP = 5;
     /**
      * Variables!
      */
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        String priceMessage = "Total: " + NumberFormat.getCurrencyInstance().format(this.quantity * 5) + "\nThank You!";
+        String priceMessage = createOrderSummary();
+        //String priceMessage = "Total: " + NumberFormat.getCurrencyInstance().format(calculatePrice(this.quantity,5)) + "\nThank You!";
         displayMessage(priceMessage);
     }
 
@@ -49,19 +51,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-
-    /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 
     /**
@@ -78,5 +72,27 @@ public class MainActivity extends AppCompatActivity {
     public void decrement(View view) {
         if (quantity > 1) this.quantity--;
         displayQuantity(quantity);
+    }
+
+    /**
+     * Calculates the price of the order
+     *
+     * @param numberOfCoffees number of coffees
+     * @return the price
+     */
+    private int calculatePrice(int numberOfCoffees) {
+        return (numberOfCoffees * PRICE_PER_CUP);
+    }
+
+    /**
+     * Creates a string message from the quantity of coffees and price
+     *
+     * @return Returns the message to be displayed once the order button is pressed
+     */
+    private String createOrderSummary() {
+        return ("Name: Stephen" +
+                "\nQuantity: " + this.quantity +
+                "\nTotal: " + NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
+                "\nThank You!");
     }
 }
