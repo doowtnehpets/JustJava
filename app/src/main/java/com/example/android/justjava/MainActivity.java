@@ -12,6 +12,7 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-/**************************************************************************************************/
+/*------------------------------------------------------------------------------------------------*/
 
     /**
      * This method displays the given quantity value on the screen.
@@ -55,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
     public void decrement(View view) {
         if (quantity > 1) this.quantity--;
         else {
-            Toast toast = Toast.makeText(this, "Minimum order of 1", 10);
+            Toast toast = Toast.makeText(this, "Minimum order of 1", Toast.LENGTH_LONG);
             toast.show();
         }
         displayQuantity(quantity);
     }
 
-/**************************************************************************************************/
+/*------------------------------------------------------------------------------------------------*/
 
     /**
      * This method displays the given text on the screen.
@@ -87,10 +88,16 @@ public class MainActivity extends AppCompatActivity {
      * @return Returns the message to be displayed once the order button is pressed
      */
     private String createOrderSummary() {
-        return ("Name: Stephen" +
-                "\nQuantity: " + this.quantity +
-                "\nTotal: " + NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
-                "\nThank You!");
+        CheckBox whippedCreamCheckBox = findViewById(R.id.checkbox_whipped_cream);
+
+        String returnString = "Name: Stephen" +
+                "\nQuantity: " + this.quantity;
+        if (whippedCreamCheckBox.isChecked()) returnString += "\nwith Whipped Cream";
+        returnString += "\nTotal: " +
+                NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
+                "\nThank You!";
+
+        return returnString;
     }
 
     /**
