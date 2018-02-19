@@ -89,10 +89,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private String createOrderSummary() {
         CheckBox whippedCreamCheckBox = findViewById(R.id.checkbox_whipped_cream);
+        CheckBox chocolate = findViewById(R.id.checkbox_chocolate);
 
         String returnString = "Name: Stephen" +
                 "\nQuantity: " + this.quantity;
-        if (whippedCreamCheckBox.isChecked()) returnString += "\nwith Whipped Cream";
+        if (whippedCreamCheckBox.isChecked())
+            returnString += "\nadd Whipped Cream? " + whippedCreamCheckBox.isChecked();
+        if (chocolate.isChecked()) returnString += "\nadd Chocolate? " + chocolate.isChecked();
         returnString += "\nTotal: " +
                 NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
                 "\nThank You!";
