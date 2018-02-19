@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,14 +89,22 @@ public class MainActivity extends AppCompatActivity {
      * @return Returns the message to be displayed once the order button is pressed
      */
     private String createOrderSummary() {
+        EditText name = findViewById(R.id.edittext_name);
         CheckBox whippedCreamCheckBox = findViewById(R.id.checkbox_whipped_cream);
         CheckBox chocolate = findViewById(R.id.checkbox_chocolate);
 
-        String returnString = "Name: Stephen" +
+        //Start creating string and add name and quantity
+        String returnString = "Name: " + name.getText().toString() +
                 "\nQuantity: " + this.quantity;
+
+        //If whipped cream checkbox is checked then add the line add whipped cream?
         if (whippedCreamCheckBox.isChecked())
-            returnString += "\nadd Whipped Cream? " + whippedCreamCheckBox.isChecked();
-        if (chocolate.isChecked()) returnString += "\nadd Chocolate? " + chocolate.isChecked();
+            returnString += "\nadd whipped Cream? " + whippedCreamCheckBox.isChecked();
+
+        //If chocolate checkbox is checked then add the line add chocolate?
+        if (chocolate.isChecked()) returnString += "\nadd chocolate? " + chocolate.isChecked();
+
+        //Add total price to string
         returnString += "\nTotal: " +
                 NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
                 "\nThank You!";
