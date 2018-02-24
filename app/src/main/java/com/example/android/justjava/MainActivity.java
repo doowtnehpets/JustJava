@@ -103,20 +103,20 @@ public class MainActivity extends AppCompatActivity {
         CheckBox chocolate = findViewById(R.id.checkbox_chocolate);
 
         //Start creating the returnString and add name and quantity
-        String returnString = "Name: " + name.getText().toString() +
-                "\nQuantity: " + this.quantity;
+        String returnString = getString(R.string.order_summary_name, name.getText().toString()) +
+                "\n" + getString(R.string.order_summary_quantity, this.quantity);
 
         //If whipped cream checkbox is checked then add the line add whipped cream?
         if (whippedCreamCheckBox.isChecked())
-            returnString += "\nadd whipped Cream? " + whippedCreamCheckBox.isChecked();
+            returnString += "\n" + getString(R.string.order_summary_whipped_cream, whippedCreamCheckBox.isChecked());
 
         //If chocolate checkbox is checked then add the line add chocolate?
-        if (chocolate.isChecked()) returnString += "\nadd chocolate? " + chocolate.isChecked();
+        if (chocolate.isChecked())
+            returnString += "\n" + getString(R.string.order_summary_chocolate, chocolate.isChecked());
 
         //Add total price to string
-        returnString += "\nTotal: " +
-                NumberFormat.getCurrencyInstance().format(calculatePrice(quantity, whippedCreamCheckBox.isChecked(), chocolate.isChecked())) +
-                "\nThank You!";
+        returnString += "\n" + getString(R.string.order_summary_total, NumberFormat.getCurrencyInstance().format(calculatePrice(quantity, whippedCreamCheckBox.isChecked(), chocolate.isChecked()))) +
+                "\n" + getString(R.string.order_summary_thank_you);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("*/*");
