@@ -9,6 +9,7 @@
 package com.example.android.justjava;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -47,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
      * This method increases the quantity value on the screen
      */
     public void increment(View view) {
-        this.quantity++;
+        if (quantity < 100) this.quantity++;
+        else {
+            Toast.makeText(this, "Maximum order of 100", Toast.LENGTH_LONG).show();
+            return;
+        }
         displayQuantity(quantity);
     }
 
@@ -57,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
     public void decrement(View view) {
         if (quantity > 1) this.quantity--;
         else {
-            Toast toast = Toast.makeText(this, "Minimum order of 1", Toast.LENGTH_LONG);
-            toast.show();
+            Toast.makeText(this, "Minimum order of 1", Toast.LENGTH_LONG).show();
+            return;
         }
         displayQuantity(quantity);
     }
@@ -79,8 +84,12 @@ public class MainActivity extends AppCompatActivity {
      * @param numberOfCoffees number of coffees
      * @return the total price
      */
-    private int calculatePrice(int numberOfCoffees) {
-        return (numberOfCoffees * PRICE_PER_CUP);
+    private int calculatePrice(int numberOfCoffees, boolean addWhippedCream, boolean addChocolate) {
+        int totalPrice = numberOfCoffees * PRICE_PER_CUP;
+        if (addWhippedCream) totalPrice += numberOfCoffees;
+        if (addChocolate) totalPrice += numberOfCoffees * 2;
+
+        return totalPrice;
     }
 
     /**
@@ -93,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox whippedCreamCheckBox = findViewById(R.id.checkbox_whipped_cream);
         CheckBox chocolate = findViewById(R.id.checkbox_chocolate);
 
-        //Start creating string and add name and quantity
+        //Start creating the returnString and add name and quantity
         String returnString = "Name: " + name.getText().toString() +
                 "\nQuantity: " + this.quantity;
 
@@ -106,8 +115,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Add total price to string
         returnString += "\nTotal: " +
-                NumberFormat.getCurrencyInstance().format(calculatePrice(quantity)) +
+                NumberFormat.getCurrencyInstance().format(calculatePrice(quantity, whippedCreamCheckBox.isChecked(), chocolate.isChecked())) +
                 "\nThank You!";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for " + name.getText().toString());
+        intent.putExtra(Intent.EXTRA_TEXT, returnString);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
 
         return returnString;
     }
